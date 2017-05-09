@@ -1,0 +1,11 @@
+baseurl = "http://www.mrbits.com.br/"
+title = "MrBiTs' Own Website"
+copyright = "Copyright (c) 2017, all rights reserved."
+canonifyurls = true
+languageCode = "en-US"
+paginate = 3
+theme = "base16"
+PygmentsCodeFences = "True"
+
+[author]
+  name = "MrBiTs"
