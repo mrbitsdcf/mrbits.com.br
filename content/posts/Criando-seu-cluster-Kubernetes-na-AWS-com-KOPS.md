@@ -151,6 +151,8 @@ Instalamos um pacote no cluster. Como exemplo, vamos montar um Grafana, ferramen
 helm install stable/grafana
 ```
 
+Siga as instruções geradas pelo comando acima para acessar o seu Grafana novinho em folha. No final, você o acessará pela senha que as instruções deram a você, com usuário admin em http://localhost:443
+
 Para acessarmos o serviço, precisamos perguntar para a API do Kubernetes onde ele está e quais as credenciais de acesso. Utilizaremos também o KOPS para conseguir essas informações:
 ```
 kops get secrets -oplaintext --type=secret kube
