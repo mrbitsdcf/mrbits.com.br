@@ -245,7 +245,7 @@ Algumas outras opções como a assinatura e a confiança de uma chave pública d
 
 Como o objetivo aqui é fazer parte de uma comunidade onde todos trocam as mensagens de forma segura e criptografada, é interessante compartilharmos nossa chave pública. Podemos fazer isso de duas maneiras:
 
-* **Exportando nossa chave pública para um arquivo e enviando-a a alguém**
+* ___Exportando nossa chave pública para um arquivo e enviando-a a alguém___
 
 Para exportar nossa chave para um arquivo, podemos utilizar o seguinte comando:
 
@@ -267,7 +267,7 @@ V/xNKWU8hXVauPE1AAR+6LvW3OZPzwQwtb+lwaowWp9sX/o5arglwr7Ey3r4H2sx
 
 Envie esse arquivo aos seus amigos. Se eles não souberem o que fazer com isso, envie o link deste artigo para eles.
 
-* **Enviando nossa chave pública para um servidor de chaves**
+* ___Enviando nossa chave pública para um servidor de chaves___
 
 Existem milhares de servidores espalhados pelo mundo que armazenam chaves públicas e que espalham essas chaves para os outros servidores, formando uma teia redundante onde não importa em qual servidor enviamos nossa chave, ela existirá em todos os outros em poucos segundos.
 
@@ -294,7 +294,7 @@ Minha chave válida é a de ID 2B3CA5AB, datada de 19/01/2010. Essa chave nunca 
 Para importá-la para o seu keyring, execute o seguinte comando:
 
 ```
-vagrant@vagrant-ubuntu-trusty-64:~$ gpg --keyserver hkp://pool.sks-keyservers.net --recv <ID>
+gpg --keyserver hkp://pool.sks-keyservers.net --recv <ID>
 ```
 
 O *<ID>* deve ser o valor hexadecimal da chave. No caso da minha, esse valor é 6EC818FC2B3CA5AB e pode ser conseguido na ferramenta de busca de chaves do MIT.
@@ -337,7 +337,7 @@ __EOF__
 
 Se vamos trabalhar com mensagens de e-mail, eu prefiro assiná-las em clear sign. Se por outro lado vamos assinar um arquivo (um documento, uma imagem) eu trabalho com assinaturas detached. 
 
-* **Assinando mensagens em clear sign**
+* ___Assinando mensagens em clear sign___
 
 Execute o seguinte comando:
 
@@ -382,7 +382,7 @@ gpg --verify topsecret.sig
 
 Se o resultado contiver *Good signature*, então nossa mensagem veio de uma fonte confiável
 
-* **Assinando arquivos com assinaturas detached**
+* ___Assinando arquivos com assinaturas detached___
 
 Se temos um arquivo preparado por nós, como por exemplo um documento que queremos enviar mas que não pode ter seu conteúdo modificado com as informações do GPG, podemos assiná-lo com uma assinatura detached. Para isso, executamos
 
@@ -456,30 +456,79 @@ Também podemos decriptografar *inline* utilizando a opção *-d* do comando gpg
 
 #### Assinar uma chave
 
+
+
 &nbsp;
 
 #### Web of Trust
 
 Falar sobre fingerprint, conceito de web of trust, como receber uma chave, como validar um usuário
 
-#### Importe, assine e envie minha chave a um servidor
+&nbsp;
 
-Neste exercício importaremos a minha chave pública de um servidor de chaves, validaremos seu fingerprint, assinaremos e enviaremos novamente a este servidor. 
+#### Exercícios de operação com chaves
 
-**a)** Importando a chave
+Neste exercício enviaremos nossa chave pública para um servidor, importaremos a minha chave pública de um servidor de chaves, validaremos seu fingerprint, assinaremos e enviaremos novamente a este servidor. 
 
-O ID da minha chave é 6EC818FC2B3CA5AB
+**a)** ___Enviando a chave para um servidor___
+
+Para enviar sua chave para um servidor, execute o seguinte comando:
+
+```
+gpg --keyserver hkp://pool.sks-keyservers.net --send-key <ID>
+```
 
 
+**b)** ___Importando uma chave___
 
-**b)** Validando o fingerprint
+O ID da minha chave é 6EC818FC2B3CA5AB. Para importá-la para o seu keyring, execute o seguinte comando:
 
-O fingerprint da minha chave é 29F1 6B05 FCCA C89B 4062  12B4 6EC8 18FC 2B3C A5AB
+```
+gpg --keyserver hkp://pool.sks-keyservers.net --recv 6EC818FC2B3CA5AB
+```
 
-**c)** Assinando a chave
+Após a execução do comando, valide a importação da chave com 
 
-**d)** Enviando a chave ao servidor
+```
+gpg --list-keys
+```
 
+
+**c)** ___Validando o fingerprint___
+
+Para extrair o fingerprint da minha chave, use o seguinte comando:
+
+```
+gpg --fingerprint 6EC818FC2B3CA5AB
+```
+
+O fingerprint da minha chave é 
+
+```
+29F1 6B05 FCCA C89B 4062 12B4 6EC8 18FC 2B3C A5AB
+```
+
+Valide-o com a chave que você recebeu do servidor no passo *a*.
+
+**d)** ___Assinando a chave___
+
+Uma vez que a chave tenha sido validada pelo seu fingerprint, podemos assiná-la. Para isso, execute o seguinte comando:
+
+```
+gpg --sign-key 6EC818FC2B3CA5AB
+```
+
+Novamente há a possibilidade de validarmos o fingerprint da chave. Sua senha será pedida, já que a minha chave pública vai ser assinada com sua chave privada. Uma confirmação deve ser feita. 
+
+**e)** ___Enviando a chave ao servidor___
+
+Para enviar a minha chave pública, agora assinada por você, execute:
+
+```
+gpg --keyserver hkp://pool.sks-keyservers.net --send-key 6EC818FC2B3CA5AB
+```
+
+Após o sucesso dessa operação o exercício está concluído.
 
 &nbsp;
 
@@ -496,4 +545,5 @@ Se o leitor tiver dúvidas, críticas ou quiser sugerir correções e melhorias 
 #### Referências
 
 [GNU Privacy Handbook](https://www.gnupg.org/gph/en/manual.html)
+
 [Keybase.IO](https://keybase.io)
