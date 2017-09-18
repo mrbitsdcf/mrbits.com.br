@@ -22,13 +22,13 @@ Determine uma faixa de IP para usar em sua nova VPC (ou escolha uma VPC existent
 Para a instalação do KOPS em MAC OS-X, você precisa ter brew instalado antes.
 
 No MAC OS-X faça:
-```bash
+```
 brew install kops
 ```
 
 No Linux, baixe o último release do [KOPS](https://github.com/kubernetes/kops/releases/) e faça:
 
-```bash
+```
 chmod +x kops-linux-amd64
 mv kops-linux-amd64 /usr/local/bin/kops
 ```
@@ -36,12 +36,12 @@ mv kops-linux-amd64 /usr/local/bin/kops
 Instale o cliente do Kubernetes
 
 No MAC OS-X faça:
-```bash
+```
 brew install kubernetes-cli
 ```
 
 No Linux, faça:
-```bash 
+``` 
 curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 chmod +x kubectl
 mv kubectl /usr/local/bin/kubectl
