@@ -6,7 +6,14 @@ tags = ["crypto", "gpg", "pgp", "email", "hacking"]
 title = "Criptografando seus dados com GnuPG (GPG)"
 description = "Mostramos neste post como configurar suas chaves de criptografia e criptografar seus e-mails, mantendo sua comunicação segura."
 +++
-<script src="/js/ga.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-106751155-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-106751155-1');
+</script>
 
 #### Introdução
 
