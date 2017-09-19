@@ -6,6 +6,7 @@ categories = ["Linux"]
 tags = ["nixos", "linux"]
 description = "Um pequeno how-to para instalação de NixOS em um laptop"
 +++
+<script src="/js/ga.js"></script>
 
 ### O que é NixOS
 

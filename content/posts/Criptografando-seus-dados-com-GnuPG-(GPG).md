@@ -1,11 +1,12 @@
 +++
-date = "2017-09-17T10:19:04-03:00"
+date = "2017-09-18T10:19:04-03:00"
 draft = false
 categories = ["Crypto"]
 tags = ["crypto", "gpg", "pgp", "email", "hacking"]
 title = "Criptografando seus dados com GnuPG (GPG)"
 description = "Mostramos neste post como configurar suas chaves de criptografia e criptografar seus e-mails, mantendo sua comunicação segura."
 +++
+<script src="/js/ga.js"></script>
 
 #### Introdução
 
@@ -40,6 +41,9 @@ Embora seja possível realizar operações mais avançadas com o GPG, inclusive 
 * **Criptografar uma mensagem**
 * **Decriptografar uma mensagem**
 * **Assinar uma chave**
+* **Confiar em uma chave**
+
+Além disso falaremos sobre o conceito de Web of Trust, um dos pilares da comunidade que trabalha ativamente com GPG. Para finalizar, faremos alguns exercícios de casos do mundo real, para fixarmos o aprendizado.
 
 Como hoje todos os sistemas operacionais modernos possuem um shell Unix (Linux com seu Bash, Mac OSX também com Bash e Windows com o excelente [Babun](https://babun.github.io) ou mais recentemente, para o Windows 10, com o seu Linux Subsystem, virtualmente um Ubuntu com seu Bash), todos os comandos serão executados assumindo que você, leitor, tem acesso a esse shell. Eu, particularmente, uso o ZSH com uma biblioteca chamada [Oh My ZSH](http://http://ohmyz.sh/) aqui no meu Linux. Assuma também que todos os comandos são executados com um usuário regular, não privilegiado, do sistema, afinal você quer uma chave pessoal, e não a chave do root do seu computador.
 
@@ -456,13 +460,111 @@ Também podemos decriptografar *inline* utilizando a opção *-d* do comando gpg
 
 #### Assinar uma chave
 
+Assinar uma chave pública de outra pessoa significa dizer para o mundo que você reconhece, certifica, que a chave pertence a essa pessoa. Assinar uma chave é uma grande responsabilidade e deve ser feita de maneira cuidadosa, após verificar se a chave pertence mesmo à pessoa que a enviou.
 
+Jamais assine uma chave sem verificar seu fingerprint, pelo menos. O fingerprint é uma sequencia de 40 bytes, agrupados em 4 e é uma validação única da chave. O algorítmo que o gera é bastante complexo e evita que exista colisão de fingerprints, assim jamais duas chaves diferentes os terão iguais.
+
+Para validar o fingerprint, peça para o dono da chave que você quer validar que envie a você seus valores junto com a chave pública e execute o seguinte comando:
+
+```
+gpg --fingerprint <ID>
+```
+
+Se o fingerprint mostrado não for igual ao que a pessoa enviou a você, não assine a chave e comunique isto a seu dono. A chave pode ter sido comprometida.
+
+Se o fingerprint estiver correto, você pode assinar a chave pública da pessoa assim:
+
+``` 
+gpg --sign-key <ID>
+```
+
+Além do fingerprint (e outras informações da chave) serem mostradas, será pedida uma confirmação (*Reallly sing (y/N)*) e por fim a senha da sua chave privada. Então, estamos assinando uma chave pública com nossa chave privada. 
+
+Uma vez assinada a chave, exporte-a e envie-a para um servidor de chaves.
+
+Vale reforçar que assinar uma chave não significa confiar na pessoa, mas somente validar que a chave pertence à pessoa que diz ser seu dono.
+
+&nbsp;
+
+#### Confiando em uma chave
+
+Além de assinar a chave, podemos dizer ao mundo que confiamos na pessoa, que ela é quem diz ser e que informações vindas dela são confiáveis e seguras. Se fizermos um paralelo com os certificados digitais de chaves SSL (https), podemos dizer que a assinatura de uma chave é um certificado do tipo 1, que diz somente que um determinado host ou domínio pertence à pessoa ou empresa que diz possuí-lo, enquanto que confiar em uma chave é como gerar um certificado do tipo EV (extended validation), onde você certifica que a empresa ou pessoa que diz ser dona da chave existe, possui documentos como RG, CPF, Contrato Social, passaporte ou algo do gênero (e se isso não significa nada para você, aguarde meu próximo artigo sobre SSL). Além disso, você pode dizer em qual nível você confia na chave.
+
+Para configurar o nível de confiança de uma chave, execute o seguinte comando:
+
+```
+gpg --edit <ID>
+```
+
+No prompt de *gpg>*, utilize o comando *trust*. Informações da chave serão mostradas e os seguintes níveis de confiança poderão ser escolhidos:
+
+```
+ 1 = Don't know
+ 2 = I do NOT trust
+ 3 = I trust marginally
+ 4 = I trust fully
+```
+
+Dizer que você não sabe ou não conhece a pessoa (1) ou dizer que você não confia na chave (2) são informações úteis para a comunidade que trabalha com GPG. Dizer que confia vagamente (3) quer dizer que você conheceu a pessoa, olhou seus documentos, verificou seu fingerprint mas não tem muita certeza do tipo de informação que pode vir dessa pessoa. Dizer que confia totalmente (4) quer dizer que você validou a pessoa, a chave e ainda garante que os dados vindos dela são confiáveis. 
+
+Escolha uma das opções e finalize a edição da chave. Exporte e envie a chave pública para um servidor.
+
+&nbsp;
+
+#### Considerações sobre assinaturas e confiança de chaves
+
+Assinar e confiar em uma chave são ações de grande responsabilidade para a comunidade que trabalha com GPG e para uma perfeita construção de sua Web of Trust. Eu até posso assinar uma chave de uma pessoa que eu não conheço somente validando seu fingerprint, mas para confiar em uma chave eu vou querer sentar-me numa mesa de bar, tomar uma cerveja com essa pessoa, apertar sua mão e olhar seus documentos. 
+
+Jamais assine ou confie em uma chave levianamente.
 
 &nbsp;
 
 #### Web of Trust
 
-Falar sobre fingerprint, conceito de web of trust, como receber uma chave, como validar um usuário
+
+Embora possamos usar GPG para criptografar nossos arquivos e informações confidenciais, usá-lo somente para isso não é o bastante. Queremos compartilhar informação de maneira segura. Para que essa comunicação ocorra, precisamos ter nossa Web of Trust. Imgine isso como uma rede social onde cada um confia na chave do outro, formando uma rede de confiança onde Zezinho confia na chave de Luisinho, que confia na chave de Huguinho, que confia na chave de Zezinho, que confia na chave de Huguinho. 
+
+
+Huguinho <----------> Zezinho
+    \                   /
+     \                 /
+      <--->Luisinho<-->
+
+Se adicionamos à nossa rede de confiança o Pato Donald e Huguinho diz que confia em sua chave, como Zezinho e Luisinho confiam em Huguinho, podem confiar no Pato Donald também. Este, por sua vez, por confiar em Huguinho e saber que ele confia nas outras duas pessoas, passa a confiar nelas. 
+
+Gerar uma rede de confiança neste nível é trabalhoso. Primeiro, as pessoas que fazem parte dela precisam se comunicar usando GPG. Depois, as chaves precisam ter assinaturas suficientes para serem consideradas válidas. Não são, entretanto, problemas técnicos, mas problemas sociais.
+
+Quando começamos a utilizar GPG é importante ter em mente que não vamos imediatamente nos comunicar de maneira segura com todas as pessoas que nos correspondemos. O ideal é começar com um pequeno grupo de pessoas, talvez você e mais dois ou três amigos que também querer exercer seu direito à privacidade. Gerem suas chaves e assinem e confiem nas chaves públicas uns dos outros. Encontrem-se, troquem fingerprints, bebam uma cerveja e façam sua primeira festa de assinatura de chaves. Está será sua primeira rede de confiança. Ela será robusta e o exercitará nas boas práticas de mantê-la assim quando ela começar a crescer.
+
+Depois, diga aos outros que você usa GPG. Assine seus e-mails e mensagens que você envia para listas de discussão, por exemplo, e logo alguém virá perguntar o que significa aquela assinatura. Coloque também sua chave pública ou o link para seu acesso em um keyserver nesta assinatura e na sua página pessoal. A chave pública chama-se assim pelo motivo óbvio de que deve ser publicada. Quando as pessoas tiverem dúvidas sobre como trabalhar, direcione-as para este artigo.
+
+Quando as pessoas começarem a enviar suas chaves, você vai querer validá-las. Isso é um pouco mais difícil. Se você não conhece a pessoa cuja chave você quer assinar, mandam as boas práticas que você não a assine. Idealmente, procure encontrar a pessoa, tomar um café com ela ou participar de uma festa de assinatura de chaves. Coloque também em seu cartão de visitas a fingerprint da sua chave pública e um QRCode com a URL do servidor onde ela pode ser acessada. Dessa forma, quando você encontrar uma outra pessoa que usa GPG, ela poderá assinar sua chave e você assinará a dela de volta, aumentando a confiança da sua rede.
+
+Tenha em mente que tudo isso é opcional. Você não é obrigado sequer a publicar sua chave em um servidor e pode compartilhá-la somente com as pessoas que você quer efetivamente trabalhar com GPG. Pode escolher jamais assinar uma chave ou sequer querer que sua chave seja assinada. Eu implementei um projeto de GPG em uma empresa onde as chaves públicas eram compartilhadas e assinadas somente internamente e residiam em um versionador de código. A WoT dessa empresa continha apenas seus funcionários. O poder do GPG é que ele é flexível suficiente para adaptar-se às suas necessidades de segurança, quaisquer que sejam elas. 
+
+&nbsp;
+
+#### A Festa de Assinatura de Chaves
+
+Apesar do nome, esse evento costuma ser bem calmo e silencioso, e acontece com mais freqüência do que imaginamos. Vários eventos de tecnologia são usados para se organizar uma festa de assinatura de chaves. O FISL todos os anos tem uma.
+
+Nesta festa de assinaturas as chaves públicas são enviadas a um banco de dados pelos seus donos. À partir desta informação é gerada uma planilha contendo Nome, número de um documento e o fingerprint das chaves submetidas. Cada participante, ao chegar na festa, recebe uma cópia impressa com espaços para marcar as chaves efetivamente assinadas. 
+
+Durante a festa, cada participante vai até um projetor e coloca o documento que foi informado no formulário de submissão da chave, que deve conter a foto da pessoa. Dê preferência a documentos como RG, CHN ou Passaporte. Documentos sem foto não devem ser aceitos.
+
+O participante então fala seu nome, o número do documento, o ID da chave e o seu fingerprint, e cada pessoa valida as informações da planilha. Se tudo estiver correto, fazemos uma marca na chave que será assinada.
+
+Informações inconsistentes invalidam a chave, que não deve ser assinada. 
+
+Ao chegar em sua casa, você pode fazer o download deste banco de dados de chaves e importar todas para o seu keyring. Então, de posse da planilha, assine as chaves válidas e as envie para um servidor de chaves.
+
+Isso ajuda muito a aumentar a confiabilidade da nossa rede.
+
+&nbsp;
+
+#### Ferramentas
+
+Várias ferramentas foram escritas para facilitar a administração do nosso keyring. O Thunderbird possui um plugin chamado OpenPGP Manager que adiciona facilidades de gerenciamento de chaves e assinatura/criptografia dos e-mails ao produto. Todos os ambientes gráficos têm suas ferramentas de gerência de chaves, como o KGPG do KDE. O [site do GnuPG](https://gnupg.org/software/frontends.html) contém uma listagem de ferramentas que podemos usar. 
 
 &nbsp;
 

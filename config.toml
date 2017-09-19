@@ -6,6 +6,7 @@ languageCode = "en-US"
 paginate = 3
 theme = "base16"
 PygmentsCodeFences = "True"
+googleAnalytics = "UA-106751155-1"
 
 [author]
   name = "MrBiTs"
