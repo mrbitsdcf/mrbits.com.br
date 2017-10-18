@@ -1,4 +1,4 @@
-baseurl = "http://www.mrbits.com.br/"
+baseurl = "https://www.mrbits.com.br/"
 title = "MrBiTs' Own Website"
 copyright = "Copyright (c) 2017, all rights reserved."
 canonifyurls = true
@@ -10,3 +10,26 @@ googleAnalytics = "UA-106751155-1"
 
 [author]
   name = "MrBiTs"
+
+SectionPagesMenu = "main"
+
+[[menu.main]]
+  name = "Posts"
+  weight = -120
+  identifier = "posts"
+  url = "/posts/"
+
+[[menu.main]]
+  name = "Tags"
+  weight = -110
+  identifier = "tag"
+  url = "/tags/"
+
+[params.meta]
+  keywords = "blog, tech, hacking, mrbits"
+  description = "MrBiTs' Own Website"
+
+[params]
+  github = "mrbitsdcf"
+  gitlab = "mrbitsdcf"
+  email = "mrbits@mrbits.com.br"

@@ -6,15 +6,8 @@ tags = ["docker", "kubernetes", "containers"]
 title = "Criando seu cluster Kubernetes na AWS com KOPS"
 description = "Apresentamos neste post KOPS, uma ferramenta para auxiliar a criação e deploy de um cluster Kubernetes na AWS."
 +++
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-106751155-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments)};
-  gtag('js', new Date());
 
-  gtag('config', 'UA-106751155-1');
-</script>
-
+#### Introdução
 Uma ferramenta que facilita a  criação de clusters Kubernetes na AWS é o KOPS. Os passos à seguir mostrarão como instalá-lo e utilizá-lo  para montar seu cluster. Como leitura adicional, recomendo o [Starting Guide](https://kubernetes.io/docs/getting-started-guides/kops/)
 
 &nbsp;
