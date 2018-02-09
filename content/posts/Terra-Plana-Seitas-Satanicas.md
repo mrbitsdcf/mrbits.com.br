@@ -1,9 +1,9 @@
 +++
-date = "2018-02-08T22:33:04-03:00"
-draft = true
+date = "2018-02-08T22:33:04-02:00"
+draft = false
 categories = ["Terraplana"]
 tags = ["terraplana", "pombos"]
-title = "Terra Plana - Seita Satânica"
+title = "Terra Plana Seita Satânica"
 description = "A impressionante religiosidade dos terraplanistas os faz estudar e reconhecer diversas seitas consideradas demoníacas ou satanistas. Aqui conheceremos uma delas."
 +++
 
@@ -21,4 +21,4 @@ Esta sociedade satânica inicia, em sua esmagadora maioria, crianças entre 4, 5
 
 No último grau dessa sociedade secreta há um ritual onde todos vestem-se com túnicas negras e recebem um chapéu numa forma esotéricamente perfeita de 4 lados iguais, cujo significado é aprendido em uma das feitiçarias que se chama Geometria. Nesse ritual, chamado FORMATURA, vendem sua alma definitivamente ao maligno e recebem um contrato chamado DIPLOMA, geralmente escrito em pergaminhos, para aumentar sua força oculta. As pessoas mais graduadas nessa seita chegam a pendurar esse objeto do mal nas paredes, declarando abertamente pertencerem à seita.
 
-Mas os terraplanistas combatem essa sociedade demoníaca ferrenhamente. Vê-se que muitos deles foram iniciados nela, mas conseguiram escapar sem absorver muito do conhecimento maligno que aprenderiam.
+Mas os terraplanistas combatem essa sociedade demoníaca ferrenhamente. Vê-se que muitos (a grande maioria) deles foram iniciados nela, mas conseguiram escapar sem absorver muito do conhecimento maligno que aprenderiam.
